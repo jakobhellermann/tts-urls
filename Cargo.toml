@@ -1,0 +1,12 @@
+[package]
+authors = ["Fredrik Portström <https://portstrom.com>"]
+description = "Format URLs to retrieve audio from the TTS (text to speech) service for Google Translate"
+edition = "2018"
+license-file = "LICENSE"
+name = "google_translate_tts"
+readme = "readme.md"
+repository = "https://github.com/portstrom/google_translate_tts"
+version = "0.1.2"
+
+[dependencies]
+percent-encoding = "1"
