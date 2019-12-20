@@ -16,7 +16,7 @@
 //!
 //! ```
 //! let url = google_translate_tts::url("Hello, World!", "en");
-//! assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello, World!&tl=en&tk=418730.60457&client=webapp");
+//! assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World%21&tl=en&tk=418730.60457&client=webapp");
 //! ```
 
 #![deny(missing_docs)]
@@ -52,7 +52,7 @@ fn compute_checksum(term: &str) -> (u32, u32) {
 ///
 /// ```
 /// let url = google_translate_tts::url("Hello, World!", "en");
-/// assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello, World!&tl=en&tk=418730.60457&client=webapp");
+/// assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World%21&tl=en&tk=418730.60457&client=webapp");
 /// ```
 #[must_use]
 pub fn url(term: &str, language: &str) -> String {
@@ -72,7 +72,7 @@ pub fn url(term: &str, language: &str) -> String {
 ///
 /// ```
 /// let url = google_translate_tts::url_with_speed("Hello, World!", "en", 0.24);
-/// assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello, World!&tl=en&tk=418730.60457&client=webapp&ttsspeed=0.24");
+/// assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World%21&tl=en&tk=418730.60457&client=webapp&ttsspeed=0.24");
 /// ```
 #[must_use]
 pub fn url_with_speed(term: &str, language: &str, speed: f32) -> String {
@@ -91,7 +91,7 @@ pub fn url_with_speed(term: &str, language: &str, speed: f32) -> String {
 fn test1() {
     assert_eq!(
         url("Добрый день!", "ru"),
-        "https://translate.google.com/translate_tts?ie=UTF-8&q=%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%B9 %D0%B4%D0%B5%D0%BD%D1%8C!&tl=ru&tk=33233.396882&client=webapp"
+        "https://translate.google.com/translate_tts?ie=UTF-8&q=%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%B9%20%D0%B4%D0%B5%D0%BD%D1%8C%21&tl=ru&tk=33233.396882&client=webapp"
     );
 }
 
@@ -99,7 +99,7 @@ fn test1() {
 fn test2() {
     assert_eq!(
         url_with_speed("Добрый день!", "ru", 0.24),
-        "https://translate.google.com/translate_tts?ie=UTF-8&q=%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%B9 %D0%B4%D0%B5%D0%BD%D1%8C!&tl=ru&tk=33233.396882&client=webapp&ttsspeed=0.24"
+        "https://translate.google.com/translate_tts?ie=UTF-8&q=%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%B9%20%D0%B4%D0%B5%D0%BD%D1%8C%21&tl=ru&tk=33233.396882&client=webapp&ttsspeed=0.24"
     );
 }
 

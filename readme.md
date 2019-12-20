@@ -14,5 +14,5 @@ The URL format may change at any time. This crate may not work in the future.
 
 ```rust
 let url = google_translate_tts::url("Hello, World!", "en");
-assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello, World!&tl=en&tk=418730.60457&client=webapp");
+assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World!&tl=en&tk=418730.60457&client=webapp");
 ```
