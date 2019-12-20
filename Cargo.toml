@@ -9,4 +9,4 @@ repository = "https://github.com/portstrom/google_translate_tts"
 version = "0.1.2"
 
 [dependencies]
-percent-encoding = "1"
+percent-encoding = "2"

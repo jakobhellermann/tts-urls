@@ -21,13 +21,15 @@
 
 #![deny(missing_docs)]
 
-mod encode_set {
-    use percent_encoding::define_encode_set;
+use percent_encoding::{AsciiSet, NON_ALPHANUMERIC};
 
-    define_encode_set! {
-        pub ENCODE_SET = [percent_encoding::SIMPLE_ENCODE_SET] | {'&'}
-    }
-}
+// https://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters
+// unreserved characters are 'a..zA..Z-_.~'
+const ENCODE_SET: &'static AsciiSet = &NON_ALPHANUMERIC
+    .remove(b'-')
+    .remove(b'_')
+    .remove(b'.')
+    .remove(b'~');
 
 fn compute_checksum(term: &str) -> (u32, u32) {
     let mut checksum: u32 = 429955;
@@ -57,7 +59,7 @@ pub fn url(term: &str, language: &str) -> String {
     let checksum = compute_checksum(term);
     format!(
         "https://translate.google.com/translate_tts?ie=UTF-8&q={}&tl={}&tk={}.{}&client=webapp",
-        percent_encoding::utf8_percent_encode(term, encode_set::ENCODE_SET),
+        percent_encoding::utf8_percent_encode(term, ENCODE_SET),
         language,
         checksum.0,
         checksum.1
@@ -77,7 +79,7 @@ pub fn url_with_speed(term: &str, language: &str, speed: f32) -> String {
     let checksum = compute_checksum(term);
     format!(
         "https://translate.google.com/translate_tts?ie=UTF-8&q={}&tl={}&tk={}.{}&client=webapp&ttsspeed={}",
-        percent_encoding::utf8_percent_encode(term, encode_set::ENCODE_SET),
+        percent_encoding::utf8_percent_encode(term, ENCODE_SET),
         language,
         checksum.0,
         checksum.1,
