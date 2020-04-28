@@ -20,7 +20,7 @@ fn compute_checksum(term: &str) -> (u32, u32) {
 /// # Examples
 ///
 /// ```
-/// let url = google_translate_tts::google_tts::url("Hello, World!", "en");
+/// let url = tts_urls::google_translate::url("Hello, World!", "en");
 /// assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World%21&tl=en&tk=418730.60457&client=webapp");
 /// ```
 pub fn url(term: &str, language: &str) -> String {
@@ -39,7 +39,7 @@ pub fn url(term: &str, language: &str) -> String {
 /// # Examples
 ///
 /// ```
-/// let url = google_translate_tts::google_tts::url_with_speed("Hello, World!", "en", 0.24);
+/// let url = tts_urls::google_translate::url_with_speed("Hello, World!", "en", 0.24);
 /// assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World%21&tl=en&tk=418730.60457&client=webapp&ttsspeed=0.24");
 /// ```
 pub fn url_with_speed(term: &str, language: &str, speed: f32) -> String {

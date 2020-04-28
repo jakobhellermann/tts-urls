@@ -5,7 +5,7 @@ use std::borrow::Cow;
 ///
 /// # Example usage:
 /// ```rust
-/// use google_translate_tts::voicerss::VoiceRSSOptions;
+/// use tts_urls::voicerss::VoiceRSSOptions;
 /// let key = "key";
 ///
 /// let url = VoiceRSSOptions::new()

@@ -5,13 +5,13 @@
 //! # Examples
 //! Google Translate TTS:
 //! ```
-//! let url = google_translate_tts::google_tts::url("Hello, World!", "en");
+//! let url = tts_urls::google_translate::url("Hello, World!", "en");
 //! assert_eq!(url, "https://translate.google.com/translate_tts?ie=UTF-8&q=Hello%2C%20World%21&tl=en&tk=418730.60457&client=webapp");
 //! ```
 //!
 //! VoiceRSS:
 //! ```
-//! use google_translate_tts::voicerss::VoiceRSSOptions;
+//! use tts_urls::voicerss::VoiceRSSOptions;
 //! let key = "key";
 //!
 //! let url = VoiceRSSOptions::new()
@@ -23,7 +23,7 @@
 //! ```
 
 /// google translate tts
-pub mod google_tts;
+pub mod google_translate;
 /// VoiceRSS [http://www.voicerss.org/](http://www.voicerss.org/)
 pub mod voicerss;
 
