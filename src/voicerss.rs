@@ -1,6 +1,96 @@
 use std::borrow::Cow;
 
-// let key = "fb63a2b3c053488db5eaeae654f47b06";
+/// The languages supported by VoiceRSS
+/// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
+pub const LANGUAGES: &[(&str, &str)] = &[
+    ("ca-es", "Catalan"),
+    ("zh-cn", "Chinese (China)"),
+    ("zh-hk", "Chinese (Hong Kong)"),
+    ("zh-tw", "Chinese (Taiwan)"),
+    ("da-dk", "Danish"),
+    ("nl-nl", "Dutch"),
+    ("en-au", "English (Australia)"),
+    ("en-ca", "English (Canada)"),
+    ("en-gb", "English (Great Britain)"),
+    ("en-in", "English (India)"),
+    ("en-us", "English (United States)"),
+    ("fi-fi", "Finnish"),
+    ("fr-ca", "French (Canada)"),
+    ("fr-fr", "French (France)"),
+    ("de-de", "German"),
+    ("it-it", "Italian"),
+    ("ja-jp", "Japanese"),
+    ("ko-kr", "Korean"),
+    ("nb-no", "Norwegian"),
+    ("pl-pl", "Polish"),
+    ("pt-br", "Portuguese (Brazil)"),
+    ("pt-pt", "Portuguese (Portugal)"),
+    ("ru-ru", "Russian"),
+    ("es-mx", "Spanish (Mexico)"),
+    ("es-es", "Spanish (Spain)"),
+    ("sv-se", "Swedish (Sweden)"),
+];
+
+/// The codecs supported by VoiceRSS
+/// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
+pub const CODECS: &[&str] = &["MP3", "WAV", "AAC", "OGG", "CAF"];
+
+/// The audio formats supported by VoiceRSS
+/// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
+pub const AUDIO_FORMATS: &[&str] = &[
+    "8khz_8bit_mono",
+    "8khz_8bit_stereo",
+    "8khz_16bit_mono",
+    "8khz_16bit_stereo",
+    "11khz_8bit_mono",
+    "11khz_8bit_stereo",
+    "11khz_16bit_mono",
+    "11khz_16bit_stereo",
+    "12khz_8bit_mono",
+    "12khz_8bit_stereo",
+    "12khz_16bit_mono",
+    "12khz_16bit_stereo",
+    "16khz_8bit_mono",
+    "16khz_8bit_stereo",
+    "16khz_16bit_mono",
+    "16khz_16bit_stereo",
+    "22khz_8bit_mono",
+    "22khz_8bit_stereo",
+    "22khz_16bit_mono",
+    "22khz_16bit_stereo",
+    "24khz_8bit_mono",
+    "24khz_8bit_stereo",
+    "24khz_16bit_mono",
+    "24khz_16bit_stereo",
+    "32khz_8bit_mono",
+    "32khz_8bit_stereo",
+    "32khz_16bit_mono",
+    "32khz_16bit_stereo",
+    "44khz_8bit_mono",
+    "44khz_8bit_stereo",
+    "44khz_16bit_mono",
+    "44khz_16bit_stereo",
+    "48khz_8bit_mono",
+    "48khz_8bit_stereo",
+    "48khz_16bit_mono",
+    "48khz_16bit_stereo",
+    "alaw_8khz_mono",
+    "alaw_8khz_stereo",
+    "alaw_11khz_mono",
+    "alaw_11khz_stereo",
+    "alaw_22khz_mono",
+    "alaw_22khz_stereo",
+    "alaw_44khz_mono",
+    "alaw_44khz_stereo",
+    "ulaw_8khz_mono",
+    "ulaw_8khz_stereo",
+    "ulaw_11khz_mono",
+    "ulaw_11khz_stereo",
+    "ulaw_22khz_mono",
+    "ulaw_22khz_stereo",
+    "ulaw_44khz_mono",
+    "ulaw_44khz_stereo",
+];
 
 ///
 /// # Example usage:
