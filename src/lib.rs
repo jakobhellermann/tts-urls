@@ -11,15 +11,15 @@
 //!
 //! VoiceRSS:
 //! ```
-//! use tts_urls::voicerss::VoiceRSSOptions;
+//! use tts_urls::voicerss::{VoiceRSSOptions, Language, Codec};
 //! let key = "key";
 //!
 //! let url = VoiceRSSOptions::new()
-//!     .language("de-de")
+//!     .language(Language::German)
 //!     .audio_format("32khz_16bit_stereo")
-//!     .codec("mp3")
+//!     .codec(Codec::MP3)
 //!     .url(key, "Hallo Welt!");
-//! assert_eq!(url, "http://api.voicerss.org/?key=key&hl=de-de&c=mp3&f=32khz_16bit_stereo&src=Hallo%20Welt%21");
+//! assert_eq!(url, "http://api.voicerss.org/?key=key&hl=de-de&c=MP3&f=32khz_16bit_stereo&src=Hallo%20Welt%21");
 //! ```
 
 /// google translate tts

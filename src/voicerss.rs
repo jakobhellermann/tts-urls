@@ -1,39 +1,92 @@
 use std::borrow::Cow;
 
-/// The languages supported by VoiceRSS
-/// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
-pub const LANGUAGES: &[(&str, &str)] = &[
-    ("ca-es", "Catalan"),
-    ("zh-cn", "Chinese (China)"),
-    ("zh-hk", "Chinese (Hong Kong)"),
-    ("zh-tw", "Chinese (Taiwan)"),
-    ("da-dk", "Danish"),
-    ("nl-nl", "Dutch"),
-    ("en-au", "English (Australia)"),
-    ("en-ca", "English (Canada)"),
-    ("en-gb", "English (Great Britain)"),
-    ("en-in", "English (India)"),
-    ("en-us", "English (United States)"),
-    ("fi-fi", "Finnish"),
-    ("fr-ca", "French (Canada)"),
-    ("fr-fr", "French (France)"),
-    ("de-de", "German"),
-    ("it-it", "Italian"),
-    ("ja-jp", "Japanese"),
-    ("ko-kr", "Korean"),
-    ("nb-no", "Norwegian"),
-    ("pl-pl", "Polish"),
-    ("pt-br", "Portuguese (Brazil)"),
-    ("pt-pt", "Portuguese (Portugal)"),
-    ("ru-ru", "Russian"),
-    ("es-mx", "Spanish (Mexico)"),
-    ("es-es", "Spanish (Spain)"),
-    ("sv-se", "Swedish (Sweden)"),
-];
+macro_rules! define_enum {
+    ($name:ident with $($str:literal $variant:ident)* ) => {
+        #[allow(missing_docs)]
+        #[derive(Copy, Clone)]
+        pub enum $name {
+            $($variant),*
+        }
+        impl std::fmt::Display for $name {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                let s = match self {
+                    $( $name::$variant => $str, )*
+                };
+                f.write_str(s)
+            }
+        }
+    };
+}
 
-/// The codecs supported by VoiceRSS
-/// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
-pub const CODECS: &[&str] = &["MP3", "WAV", "AAC", "OGG", "CAF"];
+define_enum!(Codec with
+    "MP3" MP3
+    "WAV" WAV
+    "AAC" AAC
+    "OGG" OGG
+    "CAF" CAF
+);
+impl Default for Codec {
+    fn default() -> Self {
+        Codec::MP3
+    }
+}
+
+define_enum!(Language with
+    "ar-eg" ArabicEgypt
+    "ar-sa" ArabicSaudiArabia
+    "bg-bg" Bulgarian
+    "ca-es" Catalan
+    "zh-cn" Chinese
+    "zh-hk" ChineseHongKong
+    "zh-tw" ChineseTaiwan
+    "hr-hr" Croatian
+    "cs-cz" Czech
+    "da-dk" Danish
+    "nl-be" DutchBelgium
+    "nl-nl" DutchNetherlands
+    "en-au" EnglishAustralia
+    "en-ca" EnglishCanada
+    "en-gb" EnglishGreatBritain
+    "en-in" EnglishIndia
+    "en-ie" EnglishIreland
+    "en-us" EnglishUnitedStates
+    "fi-fi" Finnish
+    "fr-ca" FrenchCanada
+    "fr-fr" French
+    "fr-ch" FrenchSwitzerland
+    "de-de" German
+    "de-at" GermanAustria
+    "de-ch" GermanSwitzerland
+    "el-gr" Greek
+    "he-il" Hebrew
+    "hi-in" Hindi
+    "hu-hu" Hungarian
+    "id-id" Indonesian
+    "it-it" Italian
+    "ja-jp" Japanese
+    "ko-kr" Korean
+    "ms-my" Malay
+    "nb-no" Norwegian
+    "pl-pl" Polish
+    "pt-pt" Portuguese
+    "pt-br" PortugueseBrazil
+    "ro-ro" Romanian
+    "ru-ru" Russian
+    "sk-sk" Slovak
+    "sl-si" Slovenian
+    "es-es" Spanish
+    "es-mx" SpanishMexico
+    "sv-se" Swedish
+    "ta-in" Tamil
+    "th-th" Thai
+    "tr-tr" Turkish
+    "vi-vn" Vietnamese
+);
+impl Default for Language {
+    fn default() -> Self {
+        Language::EnglishUnitedStates
+    }
+}
 
 /// The audio formats supported by VoiceRSS
 /// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
@@ -95,21 +148,21 @@ pub const AUDIO_FORMATS: &[&str] = &[
 ///
 /// # Example usage:
 /// ```rust
-/// use tts_urls::voicerss::VoiceRSSOptions;
+/// use tts_urls::voicerss::{VoiceRSSOptions, Language, Codec};
 /// let key = "key";
 ///
 /// let url = VoiceRSSOptions::new()
-///     .language("de-de")
+///     .language(Language::German)
 ///     .audio_format("32khz_16bit_stereo")
-///     .codec("mp3")
+///     .codec(Codec::MP3)
 ///     .url(key, "Hallo Welt!");
-/// assert_eq!(url, "http://api.voicerss.org/?key=key&hl=de-de&c=mp3&f=32khz_16bit_stereo&src=Hallo%20Welt%21");
+/// assert_eq!(url, "http://api.voicerss.org/?key=key&hl=de-de&c=MP3&f=32khz_16bit_stereo&src=Hallo%20Welt%21");
 /// ```
 #[derive(Default)]
 pub struct VoiceRSSOptions {
-    language: Option<Cow<'static, str>>,
+    language: Option<Language>,
     speed: Option<i8>,
-    codec: Option<Cow<'static, str>>,
+    codec: Option<Codec>,
     audio_format: Option<Cow<'static, str>>,
     ssml: Option<bool>,
     base64: Option<bool>,
@@ -122,8 +175,8 @@ impl VoiceRSSOptions {
     }
 
     /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
-    pub fn language(&mut self, language: impl Into<Cow<'static, str>>) -> &mut Self {
-        self.language = Some(language.into());
+    pub fn language(&mut self, language: Language) -> &mut Self {
+        self.language = Some(language);
         self
     }
 
@@ -138,14 +191,18 @@ impl VoiceRSSOptions {
     }
 
     /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
-    pub fn codec(&mut self, codec: impl Into<Cow<'static, str>>) -> &mut Self {
-        self.codec = Some(codec.into());
+    pub fn codec(&mut self, codec: Codec) -> &mut Self {
+        self.codec = Some(codec);
         self
     }
 
     /// see [www.voicerss.org/api/documentation.aspx](VoiceRSS documentation for possible values)
     pub fn audio_format(&mut self, audio_format: impl Into<Cow<'static, str>>) -> &mut Self {
-        self.audio_format = Some(audio_format.into());
+        let format = audio_format.into();
+
+        assert!(AUDIO_FORMATS.iter().any(|&f| f == format));
+
+        self.audio_format = Some(format);
         self
     }
 
@@ -168,7 +225,7 @@ impl VoiceRSSOptions {
             "key should be alphanumeric"
         );
 
-        let language = self.language.as_deref().unwrap_or("en-us");
+        let language = self.language.unwrap_or_default();
         let text = percent_encoding::utf8_percent_encode(text, crate::ENCODE_SET);
 
         let mut url = format!("http://api.voicerss.org/?key={}&hl={}", key, language);
@@ -212,7 +269,7 @@ fn invalid_key() {
 #[test]
 fn unicode() {
     let url = VoiceRSSOptions::new()
-        .language("ru-ru")
+        .language(Language::Russian)
         .url("key", "Добрый день!");
 
     assert_eq!(
