@@ -161,6 +161,7 @@ pub const AUDIO_FORMATS: &[&str] = &[
 #[derive(Default)]
 pub struct VoiceRSSOptions {
     language: Option<Language>,
+    voice: Option<Cow<'static, str>>,
     speed: Option<i8>,
     codec: Option<Codec>,
     audio_format: Option<Cow<'static, str>>,
@@ -177,6 +178,12 @@ impl VoiceRSSOptions {
     /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
     pub fn language(&mut self, language: Language) -> &mut Self {
         self.language = Some(language);
+        self
+    }
+
+    /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
+    pub fn voice(&mut self, voice: impl Into<Cow<'static, str>>) -> &mut Self {
+        self.voice = Some(voice.into());
         self
     }
 
@@ -230,6 +237,9 @@ impl VoiceRSSOptions {
 
         let mut url = format!("http://api.voicerss.org/?key={}&hl={}", key, language);
 
+        if let Some(voice) = &self.voice {
+            url.push_str(&format!("&v={}", voice));
+        }
         if let Some(speed) = self.speed {
             url.push_str(&format!("&r={}", speed));
         }
