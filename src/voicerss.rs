@@ -89,7 +89,8 @@ impl Default for Language {
 }
 
 /// The audio formats supported by VoiceRSS
-/// ([http://www.voicerss.org/api/documentation.aspx](http://www.voicerss.org/api/documentation.aspx))
+///
+/// <http://www.voicerss.org/api/>
 pub const AUDIO_FORMATS: &[&str] = &[
     "8khz_8bit_mono",
     "8khz_8bit_stereo",
@@ -175,13 +176,13 @@ impl VoiceRSSOptions {
         Self::default()
     }
 
-    /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
+    /// see [VoiceRSS documentation](http://www.voicerss.org/api/) for possible values
     pub fn language(&mut self, language: Language) -> &mut Self {
         self.language = Some(language);
         self
     }
 
-    /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
+    /// see [VoiceRSS documentation](http://www.voicerss.org/api/) for possible values
     pub fn voice(&mut self, voice: impl Into<Cow<'static, str>>) -> &mut Self {
         self.voice = Some(voice.into());
         self
@@ -197,7 +198,7 @@ impl VoiceRSSOptions {
         self
     }
 
-    /// see [VoiceRSS documentation](http://www.voicerss.org/api/documentation.aspx) for possible values
+    /// see [VoiceRSS documentation](http://www.voicerss.org/api/) for possible values
     pub fn codec(&mut self, codec: Codec) -> &mut Self {
         self.codec = Some(codec);
         self

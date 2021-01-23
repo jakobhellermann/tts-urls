@@ -24,7 +24,7 @@
 
 /// google translate tts
 pub mod google_translate;
-/// VoiceRSS [http://www.voicerss.org/](http://www.voicerss.org/)
+/// VoiceRSS <http://www.voicerss.org/>
 pub mod voicerss;
 
 // https://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters
