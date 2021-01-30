@@ -3,7 +3,7 @@ use std::borrow::Cow;
 macro_rules! define_enum {
     ($name:ident with $($str:literal $variant:ident)* ) => {
         #[allow(missing_docs)]
-        #[derive(Copy, Clone)]
+        #[derive(Debug, PartialEq, Eq, Copy, Clone)]
         pub enum $name {
             $($variant),*
         }
@@ -15,15 +15,26 @@ macro_rules! define_enum {
                 f.write_str(s)
             }
         }
+
+        impl std::str::FromStr for $name {
+            type Err = ();
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                let val = match s.to_lowercase().as_str() {
+                    $($str => $name::$variant,)*
+                    _ => return Err(()),
+                };
+                Ok(val)
+            }
+        }
     };
 }
 
 define_enum!(Codec with
-    "MP3" MP3
-    "WAV" WAV
-    "AAC" AAC
-    "OGG" OGG
-    "CAF" CAF
+    "mp3" MP3
+    "wav" WAV
+    "aac" AAC
+    "ogg" OGG
+    "caf" CAF
 );
 impl Default for Codec {
     fn default() -> Self {
@@ -287,4 +298,8 @@ fn unicode() {
         url,
         "http://api.voicerss.org/?key=key&hl=ru-ru&src=%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%B9%20%D0%B4%D0%B5%D0%BD%D1%8C%21"
     );
+}
+#[test]
+fn language_parse() {
+    assert_eq!(Language::ArabicEgypt, "ar-eg".parse().unwrap());
 }
