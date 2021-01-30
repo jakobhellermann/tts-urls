@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 macro_rules! define_enum {
-    ($name:ident with $($str:literal $variant:ident)* ) => {
+    ($name:ident with $($str:literal $($alias:literal)* $variant:ident)* ) => {
         #[allow(missing_docs)]
         #[derive(Debug, PartialEq, Eq, Copy, Clone)]
         pub enum $name {
@@ -20,7 +20,7 @@ macro_rules! define_enum {
             type Err = ();
             fn from_str(s: &str) -> Result<Self, Self::Err> {
                 let val = match s.to_lowercase().as_str() {
-                    $($str => $name::$variant,)*
+                    $($str $(| $alias)* => $name::$variant,)*
                     _ => return Err(()),
                 };
                 Ok(val)
@@ -45,7 +45,7 @@ impl Default for Codec {
 define_enum!(Language with
     "ar-eg" ArabicEgypt
     "ar-sa" ArabicSaudiArabia
-    "bg-bg" Bulgarian
+    "bg-bg" "bg" Bulgarian
     "ca-es" Catalan
     "zh-cn" Chinese
     "zh-hk" ChineseHongKong
@@ -61,36 +61,36 @@ define_enum!(Language with
     "en-in" EnglishIndia
     "en-ie" EnglishIreland
     "en-us" EnglishUnitedStates
-    "fi-fi" Finnish
+    "fi-fi" "fi" Finnish
     "fr-ca" FrenchCanada
-    "fr-fr" French
+    "fr-fr" "fr" French
     "fr-ch" FrenchSwitzerland
-    "de-de" German
+    "de-de" "de" German
     "de-at" GermanAustria
     "de-ch" GermanSwitzerland
     "el-gr" Greek
     "he-il" Hebrew
     "hi-in" Hindi
-    "hu-hu" Hungarian
-    "id-id" Indonesian
-    "it-it" Italian
+    "hu-hu" "hu" Hungarian
+    "id-id" "id" Indonesian
+    "it-it" "it" Italian
     "ja-jp" Japanese
     "ko-kr" Korean
     "ms-my" Malay
-    "nb-no" Norwegian
-    "pl-pl" Polish
+    "nb-no" "no" Norwegian
+    "pl-pl" "pl" Polish
     "pt-pt" Portuguese
     "pt-br" PortugueseBrazil
-    "ro-ro" Romanian
-    "ru-ru" Russian
-    "sk-sk" Slovak
+    "ro-ro" "ro" Romanian
+    "ru-ru" "ru" Russian
+    "sk-sk" "sk" Slovak
     "sl-si" Slovenian
-    "es-es" Spanish
+    "es-es" "es" Spanish
     "es-mx" SpanishMexico
     "sv-se" Swedish
     "ta-in" Tamil
-    "th-th" Thai
-    "tr-tr" Turkish
+    "th-th" "th" Thai
+    "tr-tr" "tr" Turkish
     "vi-vn" Vietnamese
 );
 impl Default for Language {
@@ -302,4 +302,9 @@ fn unicode() {
 #[test]
 fn language_parse() {
     assert_eq!(Language::ArabicEgypt, "ar-eg".parse().unwrap());
+}
+
+#[test]
+fn language_alias() {
+    assert_eq!(Language::German, "de".parse().unwrap());
 }
